@@ -4,7 +4,7 @@ Tek yüzlü yazıcılarda PDF yazdırın: elle arkalı önlü baskı ve katlanm�
 
 Linux ve macOS üzerinde CUPS ile çalışan küçük bir Rust web uygulamasıdır. Arayüz ve PDF.js önizleme motoru tek çalıştırılabilir dosyaya gömülüdür; çalışırken Node.js, CDN veya ayrı bir arayüz sunucusu gerekmez.
 
-[English](README.md) · [Sürümler](https://github.com/burakherdogan/sheetflip/releases) · [Değişiklikler](CHANGELOG.md)
+[English](README.md) · [Sürümler](https://github.com/burakherdogan/sheetflip/releases) · [Değişiklikler](CHANGELOG.md) · [Yol haritası](ROADMAP.md)
 
 ![Kitapçık önizlemesi](docs/screenshots/booklet-light.png)
 

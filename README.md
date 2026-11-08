@@ -4,7 +4,7 @@ Print PDFs on single-sided printers, including manual double-sided printing and 
 
 A small Rust web app for Linux and macOS with CUPS. The interface and PDF.js preview renderer are embedded in one executable; no Node.js, CDN or separate frontend server is required at runtime.
 
-[Türkçe](README.tr.md) · [Releases](https://github.com/burakherdogan/sheetflip/releases) · [Changelog](CHANGELOG.md)
+[Türkçe](README.tr.md) · [Releases](https://github.com/burakherdogan/sheetflip/releases) · [Changelog](CHANGELOG.md) · [Roadmap](ROADMAP.md)
 
 ![Booklet preview](docs/screenshots/booklet-light.png)
 
