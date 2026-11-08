@@ -274,7 +274,7 @@ fn impose(
                     270 => ([0., 1., -1., 0., y1, -x0], y1 - y0, x1 - x0),
                     _ => ([1., 0., 0., 1., -x0, -y0], x1 - x0, y1 - y0),
                 };
-                let bytes = doc.get_page_content(page)?;
+                let bytes = doc.get_page_content(page);
                 let form = doc.add_object(Stream::new(
                     dictionary! {
                         "Type" => "XObject", "Subtype" => "Form", "FormType" => 1,
@@ -396,8 +396,7 @@ mod tests {
             let first = doc.get_dictionary(sheets[0]).unwrap();
             let bounds = first.get(b"MediaBox").unwrap().as_array().unwrap();
             assert_eq!(num(&bounds[2]), if n == 3 { 595. } else { 842. });
-            let ops =
-                lopdf::content::Content::decode(&doc.get_page_content(sheets[0]).unwrap()).unwrap();
+            let ops = lopdf::content::Content::decode(&doc.get_page_content(sheets[0])).unwrap();
             let names: Vec<_> = ops
                 .operations
                 .iter()
@@ -418,8 +417,8 @@ mod tests {
                 form.dict.get(b"Subtype").unwrap().as_name().unwrap(),
                 b"Form"
             );
-            assert_eq!(form.content, doc.get_page_content(ids[0]).unwrap());
-            let second = String::from_utf8(doc.get_page_content(sheets[1]).unwrap()).unwrap();
+            assert_eq!(form.content, doc.get_page_content(ids[0]));
+            let second = String::from_utf8(doc.get_page_content(sheets[1])).unwrap();
             assert_eq!(second.matches(" Do ").count(), 1);
         }
     }
@@ -472,8 +471,7 @@ mod tests {
                 .map(num)
                 .collect();
             assert_eq!(matrix, expected);
-            let ops =
-                lopdf::content::Content::decode(&doc.get_page_content(sheets[0]).unwrap()).unwrap();
+            let ops = lopdf::content::Content::decode(&doc.get_page_content(sheets[0])).unwrap();
             let cm = ops.operations.iter().find(|o| o.operator == "cm").unwrap();
             let expected_scale = if rotation % 180 == 0 {
                 (297.5_f32 / 200.).min(421. / 400.)
@@ -514,7 +512,7 @@ mod tests {
                     180
                 );
                 if per_side == 1 {
-                    let contents = String::from_utf8(doc.get_page_content(page).unwrap()).unwrap();
+                    let contents = String::from_utf8(doc.get_page_content(page)).unwrap();
                     assert_eq!(contents.matches("/FPN 8 Tf").count(), 1);
                 }
             }
