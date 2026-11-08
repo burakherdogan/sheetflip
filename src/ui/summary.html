@@ -1,0 +1,18 @@
+<section class="card narrow">
+{{steps}}
+<h1>{{summary_title}}</h1>
+<div class="big-count"><strong>{{sheet_count}}</strong><span>{{sheets}}{{copies_note}}</span></div>
+<p>{{load_paper_text}}</p>
+{{side_rows}}
+<table class="details">
+<tr><th>{{printer}}</th><td>{{printer_name}}</td></tr>
+<tr><th>{{layout}}</th><td>{{mode_label}}</td></tr>
+<tr><th>{{pages_per_side}}</th><td>{{per_side}}</td></tr>
+<tr><th>{{document}}</th><td>{{document_pages}}</td></tr>
+<tr><th>{{color}}</th><td>{{color_label}}</td></tr>
+<tr><th>{{quality}}</th><td>{{quality_label}}</td></tr>
+{{edge_row}}
+<tr><th>{{page_numbers}}</th><td>{{numbers_label}}</td></tr>
+</table>
+<div class="actions"><a class="button ghost" href="/">{{back_link}}</a><form action="/job/{{id}}/front" method="post" data-confirm="{{confirm}}"><button>{{button}}</button></form></div>
+</section>

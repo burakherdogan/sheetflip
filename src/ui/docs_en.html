@@ -1,0 +1,68 @@
+<article class="card docs">
+<nav class="toc"><a href="#overview">Overview</a><a href="#install">Install</a><a href="#config">Configuration</a><a href="#service">Run as a service</a><a href="#calibrate">Printer test</a><a href="#privacy">Privacy &amp; security</a><a href="#trouble">Troubleshooting</a></nav>
+<div class="docs-body">
+<h1 id="overview">Documentation</h1>
+<p>Enter any whole number from 1 to 100 for pages per side. The preview updates automatically. Multiple pages are placed onto A4 sheets by the application; unused cells remain blank. Booklets always use 2 pages per side.</p>
+<p>Sheetflip is a small web app for printing PDFs on printers without automatic duplex. It prints the fronts, tells you how to reload the paper, then prints the backs in the right order. It also imposes A5 booklets.</p>
+<h3>Layouts</h3>
+<ul>
+<li><b>Single-sided</b>: a normal print job.</li>
+<li><b>Double-sided</b>: fronts first, then backs after you reload the stack. Odd page counts get a blank last back so copies stay aligned.</li>
+<li><b>Booklet</b>: two pages per side, ordered so the stack can be folded into an A5 booklet. Blank pages are added up to a multiple of four.</li>
+</ul>
+<p>The preview shows every sheet with its front and back before anything is sent to the printer.</p>
+
+<h2 id="install">Install</h2>
+<p>Requirements: Linux or macOS with <a href="https://openprinting.github.io/cups/">CUPS</a>, the <code>lp</code> and <code>lpstat</code> commands, and at least one printer added in CUPS.</p>
+<p>Download the binary from the releases page, or build it with Rust:</p>
+<pre><code>cargo build --release
+./target/release/sheetflip</code></pre>
+<p>Open <code>http://localhost:8080</code>. The binary contains the whole interface; no other files are needed.</p>
+
+<h2 id="config">Configuration</h2>
+<p>Settings are environment variables. Printer test results are stored in <code>~/.config/sheetflip/printers.json</code>.</p>
+<table class="details">
+<tr><th><code>LISTEN</code></th><td>Address to listen on. Default <code>0.0.0.0:8080</code>.</td></tr>
+<tr><th><code>DATA_DIR</code></th><td>Where uploaded files are kept while a job runs. Default: system temp directory.</td></tr>
+</table>
+
+<h2 id="service">Run as a service</h2>
+<p>With systemd, as your own user. No root needed:</p>
+<pre><code># ~/.config/systemd/user/sheetflip.service
+[Unit]
+Description=Sheetflip
+
+[Service]
+ExecStart=%h/.local/bin/sheetflip
+Restart=on-failure
+
+[Install]
+WantedBy=default.target</code></pre>
+<pre><code>systemctl --user enable --now sheetflip</code></pre>
+
+<h2 id="calibrate">Printer test</h2>
+<p>Printers feed and stack paper differently. Before the first double-sided print, run the <a href="/printer-test">printer test</a> once for each printer:</p>
+<ol>
+<li>Choose the printer and print the test page. Two sheets are used.</li>
+<li>Reload the paper as shown on screen and print the backs.</li>
+<li>Answer two questions: which number is on the back of sheet 1, and whether the arrow on the back points up.</li>
+</ol>
+<p>The answers are saved for that printer in <code>~/.config/sheetflip/printers.json</code>. Double-sided and booklet prints use them from then on. Run the test again if you change how you reload the paper.</p>
+
+<h2 id="privacy">Privacy &amp; security</h2>
+<ul>
+<li>Files never leave this computer. They are sent only to the local CUPS server.</li>
+<li>Files are deleted when a job finishes. Unfinished jobs are removed after 24 hours.</li>
+<li>There is no login. Anyone who can reach the address can print. To allow only this computer, use <code>LISTEN=127.0.0.1:8080</code>.</li>
+</ul>
+
+<h2 id="trouble">Troubleshooting</h2>
+<dl>
+<dt>“No printers found”</dt><dd>Add the printer in CUPS (<code>http://localhost:631</code>) and check that <code>lpstat -e</code> lists it.</dd>
+<dt>Nothing comes out</dt><dd>Open <code>http://localhost:631/jobs</code> to see whether the job is waiting or stopped.</dd>
+<dt>Backs on the wrong sheets or upside down</dt><dd>Run the <a href="/printer-test">printer test</a> again and reload the paper exactly as shown.</dd>
+<dt>The preview is empty</dt><dd>The PDF may be encrypted or damaged. Try exporting it again.</dd>
+</dl>
+<p class="muted small">PDF preview uses <a href="https://mozilla.github.io/pdf.js/">PDF.js</a> (Apache-2.0).</p>
+</div>
+</article>

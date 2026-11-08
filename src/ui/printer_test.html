@@ -1,0 +1,10 @@
+<section class="card narrow">
+<h1>{{test_title}}</h1>
+<p>{{test_intro}}</p>
+<ol class="flip-steps"><li>{{test_step_1}}</li><li>{{test_step_2}}</li><li>{{test_step_3}}</li></ol>
+<form method="post" action="/printer-test" data-confirm="{{test_confirm}}">
+  <label class="field">{{printer}}<select name="printer">{{printer_options}}</select></label>
+  <p class="muted small">{{tested_text}}</p>
+  <div class="actions"><a class="button ghost" href="/">{{back_link}}</a><button>{{test_start}}</button></div>
+</form>
+</section>

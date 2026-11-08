@@ -1,0 +1,11 @@
+<section class="card narrow">
+{{steps}}
+<div class="big-count"><strong>{{sheet_count}}</strong><span>{{printing_fronts}}</span></div>
+<p class="notice">{{wait_text}}</p>
+<h2>{{flip_title}}</h2>
+<div class="flip-guide">
+  <svg viewBox="0 0 220 140" aria-hidden="true"><rect x="40" y="18" width="70" height="96" rx="4" class="sheet-a"/><path d="M58 40h34M58 52h34M58 64h24" class="lines"/><path d="M122 66h28m-8-8 8 8-8 8" class="arrow"/><rect x="160" y="18" width="50" height="96" rx="4" class="sheet-b"/><path d="M185 30v70m-8-10 8 10 8-10" class="arrow"/></svg>
+  <ol class="flip-steps"><li>{{flip_1_text}}</li><li>{{flip_2}}</li><li>{{flip_3}}</li></ol>
+</div>
+<div class="actions"><span></span><form action="/job/{{id}}/back" method="post" data-confirm="{{confirm}}"><button>{{print_backs}}</button></form></div>
+</section>

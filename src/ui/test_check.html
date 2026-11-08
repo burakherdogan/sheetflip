@@ -1,0 +1,22 @@
+<section class="card narrow">
+{{steps}}
+<h1>{{check_title}}</h1>
+<form method="post" action="/printer-test/{{id}}">
+  <fieldset class="field">
+    <legend>{{q_back}}</legend>
+    <div class="choices">
+      <label class="mode"><input type="radio" name="back" value="2" required><span><strong>2</strong></span></label>
+      <label class="mode"><input type="radio" name="back" value="4"><span><strong>4</strong></span></label>
+      <label class="mode"><input type="radio" name="back" value="none"><span><strong>{{a_none}}</strong></span></label>
+    </div>
+  </fieldset>
+  <fieldset class="field">
+    <legend>{{q_arrow}}</legend>
+    <div class="choices">
+      <label class="mode"><input type="radio" name="arrow" value="up" required><span><strong>{{a_up}}</strong></span></label>
+      <label class="mode"><input type="radio" name="arrow" value="down"><span><strong>{{a_down}}</strong></span></label>
+    </div>
+  </fieldset>
+  <div class="actions"><span></span><button>{{save_setting}}</button></div>
+</form>
+</section>

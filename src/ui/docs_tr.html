@@ -1,0 +1,68 @@
+<article class="card docs">
+<nav class="toc"><a href="#overview">Genel bakış</a><a href="#install">Kurulum</a><a href="#config">Ayarlar</a><a href="#service">Servis olarak çalıştırma</a><a href="#calibrate">Yazıcı testi</a><a href="#privacy">Gizlilik ve güvenlik</a><a href="#trouble">Sorun giderme</a></nav>
+<div class="docs-body">
+<h1 id="overview">Belgeler</h1>
+<p>Yüz başına sayfa alanına 1 ile 100 arasında bir tam sayı yazabilirsiniz. Önizleme otomatik güncellenir. Birden fazla sayfa, uygulama tarafından A4 üzerine yerleştirilir; boş hücreler boş kalır. Kitapçıkta bu değer her zaman 2 olur.</p>
+<p>Sheetflip, otomatik arkalı önlü basamayan yazıcılarda PDF basmak için küçük bir web uygulamasıdır. Önce ön yüzleri basar, kağıdı nasıl geri koyacağınızı söyler, sonra arka yüzleri doğru sırayla basar. A5 kitapçık dizilimini de kendisi yapar.</p>
+<h3>Baskı şekilleri</h3>
+<ul>
+<li><b>Tek yüz</b>: normal baskı.</li>
+<li><b>Arkalı önlü</b>: önce ön yüzler, desteyi geri koyduktan sonra arka yüzler. Sayfa sayısı tekse son arka yüz boş basılır; böylece kopyalar karışmaz.</li>
+<li><b>Kitapçık</b>: her yüze iki sayfa, deste ortadan katlanınca A5 kitapçık olacak sırayla. Sayfa sayısı dördün katına boş sayfayla tamamlanır.</li>
+</ul>
+<p>Önizleme, yazıcıya bir şey gönderilmeden önce her kağıdın ön ve arka yüzünü gösterir.</p>
+
+<h2 id="install">Kurulum</h2>
+<p>Gereksinimler: <a href="https://openprinting.github.io/cups/">CUPS</a> kurulu Linux ya da macOS, <code>lp</code> ve <code>lpstat</code> komutları ve CUPS'a eklenmiş en az bir yazıcı.</p>
+<p>Çalıştırılabilir dosyayı sürümler sayfasından indirin ya da Rust ile derleyin:</p>
+<pre><code>cargo build --release
+./target/release/sheetflip</code></pre>
+<p><code>http://localhost:8080</code> adresini açın. Arayüzün tamamı dosyanın içindedir; başka dosya gerekmez.</p>
+
+<h2 id="config">Ayarlar</h2>
+<p>Ayarlar ortam değişkenleriyle verilir. Yazıcı testi sonuçları <code>~/.config/sheetflip/printers.json</code> dosyasında tutulur.</p>
+<table class="details">
+<tr><th><code>LISTEN</code></th><td>Dinlenecek adres. Varsayılan <code>0.0.0.0:8080</code>.</td></tr>
+<tr><th><code>DATA_DIR</code></th><td>İş sürerken yüklenen dosyaların tutulduğu klasör. Varsayılan: sistemin geçici klasörü.</td></tr>
+</table>
+
+<h2 id="service">Servis olarak çalıştırma</h2>
+<p>systemd ile, kendi kullanıcınızla. Root gerekmez:</p>
+<pre><code># ~/.config/systemd/user/sheetflip.service
+[Unit]
+Description=Sheetflip
+
+[Service]
+ExecStart=%h/.local/bin/sheetflip
+Restart=on-failure
+
+[Install]
+WantedBy=default.target</code></pre>
+<pre><code>systemctl --user enable --now sheetflip</code></pre>
+
+<h2 id="calibrate">Yazıcı testi</h2>
+<p>Yazıcılar kağıdı farklı alır ve farklı dizer. İlk arkalı önlü baskıdan önce her yazıcı için bir kez <a href="/printer-test">yazıcı testini</a> yapın:</p>
+<ol>
+<li>Yazıcıyı seçin ve test sayfasını basın. İki kağıt kullanılır.</li>
+<li>Kağıdı ekrandaki gibi geri koyun ve arka yüzleri basın.</li>
+<li>İki soruyu cevaplayın: 1. kağıdın arkasında hangi sayı var ve arkadaki ok yukarıyı gösteriyor mu.</li>
+</ol>
+<p>Cevaplar o yazıcı için <code>~/.config/sheetflip/printers.json</code> dosyasına kaydedilir. Bundan sonra arkalı önlü ve kitapçık baskılar bu ayarla yapılır. Kağıdı geri koyma şeklinizi değiştirirseniz testi tekrarlayın.</p>
+
+<h2 id="privacy">Gizlilik ve güvenlik</h2>
+<ul>
+<li>Dosyalar bu bilgisayardan çıkmaz; yalnızca yerel CUPS sunucusuna gönderilir.</li>
+<li>İş bitince dosyalar silinir. Yarım kalan işler 24 saat sonra silinir.</li>
+<li>Giriş yoktur. Adrese ulaşabilen herkes baskı alabilir. Yalnızca bu bilgisayardan erişim için <code>LISTEN=127.0.0.1:8080</code> kullanın.</li>
+</ul>
+
+<h2 id="trouble">Sorun giderme</h2>
+<dl>
+<dt>“Yazıcı bulunamadı”</dt><dd>Yazıcıyı CUPS'a ekleyin (<code>http://localhost:631</code>) ve <code>lpstat -e</code> çıktısında göründüğünü kontrol edin.</dd>
+<dt>Kağıt çıkmıyor</dt><dd>İşin bekleyip beklemediğini görmek için <code>http://localhost:631/jobs</code> adresini açın.</dd>
+<dt>Arka yüzler yanlış kağıtta ya da baş aşağı</dt><dd><a href="/printer-test">Yazıcı testini</a> tekrarlayın ve kağıdı tam ekrandaki gibi geri koyun.</dd>
+<dt>Önizleme boş</dt><dd>PDF şifreli ya da bozuk olabilir. Dosyayı yeniden dışa aktarmayı deneyin.</dd>
+</dl>
+<p class="muted small">PDF önizlemesi <a href="https://mozilla.github.io/pdf.js/">PDF.js</a> (Apache-2.0) ile yapılır.</p>
+</div>
+</article>

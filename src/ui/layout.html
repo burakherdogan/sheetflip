@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="{{lang}}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{title}} · Sheetflip</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23087f73'/><path d='M10 8h12v6H10zM8 14h16v9h-4v4h-8v-4H8z' fill='white'/></svg>">
+<script>document.documentElement.dataset.theme = localStorage.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');</script>
+<link rel="stylesheet" href="/app.css">
+</head>
+<body>
+<header>
+  <a class="brand" href="/"><span class="logo"></span>Sheetflip</a>
+  <nav>
+    <a href="/printer-test">{{nav_test}}</a>
+    <a href="/docs">{{nav_docs}}</a>
+    <span class="lang" role="group" aria-label="{{language}}"><a class="{{tr_active}}" href="/lang/tr" hreflang="tr">TR</a><a class="{{en_active}}" href="/lang/en" hreflang="en">EN</a></span>
+    <button type="button" id="theme" class="icon" aria-label="{{theme}}" title="{{theme}}"></button>
+  </nav>
+</header>
+<main>{{body}}</main>
+<dialog id="confirm">
+  <h3>{{confirm_title}}</h3>
+  <p id="confirm-text"></p>
+  <div class="row"><button type="button" class="ghost" value="no">{{cancel}}</button><button type="button" value="yes">{{confirm_yes}}</button></div>
+</dialog>
+<dialog id="preview-dialog" aria-labelledby="viewer-title">
+  <div class="viewer-toolbar"><strong id="viewer-title">{{preview}}</strong><button type="button" id="viewer-close" class="ghost">{{viewer_close}}</button></div>
+  <div class="viewer-toolbar viewer-controls">
+    <button type="button" id="viewer-prev" class="ghost">{{viewer_prev}}</button>
+    <button type="button" id="viewer-next" class="ghost">{{viewer_next}}</button>
+    <button type="button" id="viewer-out" class="ghost" aria-label="{{viewer_zoom_out}}">−</button>
+    <output id="viewer-zoom">100%</output>
+    <button type="button" id="viewer-in" class="ghost" aria-label="{{viewer_zoom_in}}">+</button>
+  </div>
+  <div id="viewer-stage" tabindex="0"><div id="viewer-paper"></div></div>
+  <p id="viewer-error" role="alert" hidden></p>
+</dialog>
+<script>window.I18N = {{js_strings}};</script>
+<script type="module" src="/app.js"></script>
+</body>
+</html>

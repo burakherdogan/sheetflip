@@ -1,0 +1,47 @@
+<form action="/upload" method="post" enctype="multipart/form-data" class="workspace">
+<section class="card preview-panel">
+  <div class="card-head"><h2>{{preview}}</h2><span id="file-meta" class="muted"></span></div>
+  <label class="dropzone" id="dropzone">
+    <span class="drop-icon" aria-hidden="true"></span>
+    <strong>{{drop_title}}</strong>
+    <span class="muted">{{drop_sub}}</span>
+    <input id="pdf-input" type="file" name="file" accept="application/pdf,.pdf" required>
+  </label>
+  <p id="file-error" class="alert" role="alert" hidden></p>
+  <div id="preview-wrap" hidden>
+    <div class="file-row">
+      <strong id="file-name"></strong>
+      <span class="file-actions"><a id="open-pdf" class="button ghost small" target="_blank" rel="noopener">{{open_original}}</a><button type="button" id="change-file" class="ghost small">{{change}}</button></span>
+    </div>
+    <p id="sheet-summary" class="muted"></p>
+    <div id="sheets" class="sheets"></div>
+  </div>
+</section>
+<aside class="card settings">
+  <div class="card-head"><h2>{{settings}}</h2></div>
+  <label class="field">{{printer}}<select name="printer" data-tested="{{tested_json}}">{{printer_options}}</select></label>
+  <p class="notice small" id="untested" hidden>{{untested_notice}} <a id="test-link" href="/printer-test">{{test_link}}</a></p>
+  <fieldset class="field">
+    <legend>{{layout}}</legend>
+    <label class="mode"><input type="radio" name="mode" value="single"><span class="mode-icon single" aria-hidden="true"></span><span><strong>{{mode_single}}</strong></span></label>
+    <label class="mode"><input type="radio" name="mode" value="duplex" checked><span class="mode-icon duplex" aria-hidden="true"></span><span><strong>{{mode_duplex}}</strong><small>{{mode_duplex_sub}}</small></span></label>
+    <label class="mode"><input type="radio" name="mode" value="booklet"><span class="mode-icon booklet" aria-hidden="true"></span><span><strong>{{mode_booklet}}</strong><small>{{mode_booklet_sub}}</small></span></label>
+  </fieldset>
+  <label class="field" id="nup-box">{{pages_per_side}}<input type="number" name="nup" value="1" min="1" max="{{max_per_side}}" step="1" required></label>
+  <fieldset class="field" id="edge-box">
+    <legend>{{flip_edge}}</legend>
+    <div class="seg"><label><input type="radio" name="edge" value="long" checked><span>{{edge_long}}</span></label><label><input type="radio" name="edge" value="short"><span>{{edge_short}}</span></label></div>
+  </fieldset>
+  <p class="muted small" id="booklet-hint" hidden>{{booklet_edge_note}}</p>
+  <div class="grid-2">
+    <label class="field">{{pages}}<input name="pages" placeholder="{{pages_all}}" autocomplete="off"></label>
+    <label class="field">{{copies}}<input type="number" name="copies" value="1" min="1" max="99" required></label>
+  </div>
+  <label class="field">{{quality}}<select name="quality"><option value="draft">{{q_draft}}</option><option value="normal" selected>{{q_normal}}</option><option value="high">{{q_high}}</option></select></label>
+  <div class="switches">
+    <label class="switch"><span>{{grayscale}}</span><input type="checkbox" name="gray" role="switch"></label>
+    <label class="switch"><span>{{page_numbers}}</span><input type="checkbox" name="numbers" role="switch"></label>
+  </div>
+  <button type="submit" class="block">{{review}}</button>
+</aside>
+</form>
